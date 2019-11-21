@@ -1,0 +1,9 @@
+---
+
+#########
+# Tasks #
+#########
+
+manala_deploy_tasks:
+  - make: install@production
+  - make: build@production
