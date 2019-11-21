@@ -63,7 +63,16 @@ provision-php: provision
 ## Install application
 install:
 	composer install --verbose
-	bin/console doctrine:database:create --if-not-exists
+	composer do-work
+
+## Init default
+init-default: install
+	cd /srv/app && composer do-work
+
+## Destroy vms + database
+force-destroy:
+	vagrant ssh -- "cd /srv/app && bin/console doctrine:database:drop --force"
+	killall -9 VBoxHeadless && vagrant destroy
 
 install@test:
 	# Composer
