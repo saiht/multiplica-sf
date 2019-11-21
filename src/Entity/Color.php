@@ -31,7 +31,7 @@ class Color
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $pantone_value;
+    private $pantoneValue;
 
     /**
      * @ORM\Column(type="integer")
@@ -69,12 +69,12 @@ class Color
 
     public function getPantoneValue(): ?string
     {
-        return $this->pantone_value;
+        return $this->pantoneValue;
     }
 
-    public function setPantoneValue(string $pantone_value): self
+    public function setPantoneValue(string $pantoneValue): self
     {
-        $this->pantone_value = $pantone_value;
+        $this->pantoneValue = $pantoneValue;
 
         return $this;
     }
