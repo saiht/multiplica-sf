@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(formats={"json","xml"})
  * @ORM\Entity(repositoryClass="App\Repository\ColorRepository")
  */
 class Color
@@ -15,6 +16,7 @@ class Color
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ApiProperty(identifier=true)
      */
     private $id;
 
