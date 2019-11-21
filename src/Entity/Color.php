@@ -5,10 +5,26 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource(formats={"json","xml"})
+ * @ApiResource(formats={"json","xml"},
+ *     itemOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"details"}}
+ *           },
+ *          "patch","put","delete"
+ *     },
+ *     collectionOperations={
+ *          "get"={
+ *              "normalization_context"={"groups"={"list"}}
+ *          },
+ *          "post"
+ *     })
  * @ORM\Entity(repositoryClass="App\Repository\ColorRepository")
+ * @Serializer\ExclusionPolicy("all")
  */
 class Color
 {
@@ -17,26 +33,43 @@ class Color
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @ApiProperty(identifier=true)
+     * @Groups({"list", "details"})
+     * @Serializer\Expose()
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="3")
+     * @Groups({"list", "details"})
+     * @Serializer\Expose()
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/#[0-9a-f]{3,6}/i", message="This value is not valid. Examples: '#fff', '#FFF' or #0101DF")
+     * @Groups({"list", "details"})
+     * @Serializer\Expose()
      */
     private $color;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="3")
+     * @Groups({"details"})
+     * @Serializer\Expose()
      */
     private $pantoneValue;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Regex(pattern="/^(19[0-9]{2}|2[0-9]{3})$/")
+     * @Groups({"details"})
+     * @Serializer\Expose()
      */
     private $year;
 
