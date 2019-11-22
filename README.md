@@ -30,12 +30,30 @@ sudo rm -f /opt/vagrant/embedded/bin/curl
 ### Getting started
     
 To install the project the first time and boot the VM, execute:
-
 ```bash
-make setup
+make setup # or vagrant up
 ```
 
 Now you can access the API docs by browsing to http://multiplica.test/api/docs.
+
+If you don't want to use the vm, you can simply install the project with:
+```bash
+composer install
+```
+Then, maybe you need some `colors` in your database?
+For that, you need to update the variable `DATABASE_URL` in the `.env` file, and execute:
+```bash
+composer do-work
+```
+which will create the database, creating schema, and importing the `colors.csv` data.
+See more about the command in ### Miscellaneous section below.
+
+How to serve the application out of the vm:
+```bash
+php -S localhost:8000 -t public
+```
+
+### Endpoints
 
 On this endpoint you can use the provided sandbox to experiment all routes:
 
@@ -96,6 +114,20 @@ If you want to see the format of the Color API, you can use:
 ```bash
 make api-export
 ```
+
+If you have more colors entries you want to import, you can run the new command:
+```bash
+vagrant ssh -- "cd /srv/app && php bin/console app:seed-colors <file>"
+```
+(Or directly `bin/console app:seed-colors <file>`if you don't want to use serve the application inside the vm)
+
+Don't forget to replace `<file>` by the path of your csv file.
+
+Note that you csv file MUST have the `,` delimiter, and those columns:
+
+|id|name|year|color|pantone_value|
+|--|----|----|-----|-------------|
+
 
 ### Destroy vms
 
