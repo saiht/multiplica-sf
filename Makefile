@@ -69,6 +69,10 @@ install:
 init-default: install
 	cd /srv/app && composer do-work
 
+## See open api export
+api-export:
+	vagrant ssh -- "cd /srv/app/ && bin/console api:openapi:export"
+
 ## Destroy vms + database
 force-destroy:
 	vagrant ssh -- "cd /srv/app && bin/console doctrine:database:drop --force"

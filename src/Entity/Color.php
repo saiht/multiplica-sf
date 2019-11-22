@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -50,24 +51,26 @@ class Color
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
-     * @Assert\Regex(pattern="/#[0-9a-f]{3,6}/i", message="This value is not valid. Examples: '#fff', '#FFF' or #0101DF")
+     * @Assert\Regex(pattern="/#[0-9a-f]{3,6}/i", message="This value is not valid. Examples: '#fff', '#FFF' or '#0101DF'")
      * @Groups({"list", "details"})
      * @Serializer\Expose()
      */
     private $color;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, name="pantone_value")
      * @Assert\NotBlank()
      * @Assert\Length(min="3")
      * @Groups({"details"})
      * @Serializer\Expose()
+     * @SerializedName("pantone_value")
      */
     private $pantoneValue;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\Regex(pattern="/^(19[0-9]{2}|2[0-9]{3})$/")
+     * @Assert\NotBlank()
      * @Groups({"details"})
      * @Serializer\Expose()
      */
